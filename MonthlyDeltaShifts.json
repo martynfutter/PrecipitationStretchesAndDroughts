@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "filename": "MonthlyDeltaShifts.csv",
+    "description": "Monthly precipitation and temperature delta shifts for climate scenario modeling",
+    "source": "Example data",
+    "dateCreated": "2025-10-05",
+    "timePeriod": {
+      "start": 2050,
+      "end": 2080,
+      "unit": "year"
+    },
+    "version": "1.0"
+  },
+  "schema": {
+    "columns": [
+      {
+        "name": "Month",
+        "type": "numeric",
+        "description": "Month number (1-12)",
+        "range": {
+          "min": 1,
+          "max": 12
+        },
+        "required": true
+      },
+      {
+        "name": "PPctChange",
+        "type": "numeric",
+        "description": "Precipitation percentage change multiplier to apply for the month",
+        "unit": "percent",
+        "required": true
+      },
+      {
+        "name": "TOffset",
+        "type": "numeric",
+        "description": "Temperature offset to apply for the month",
+        "unit": "degrees_celsius",
+        "required": true
+      }
+    ],
+    "rowCount": 12,
+    "primaryKey": "Month"
+  },
+  "usage": {
+    "purpose": "Used in drought simulation and precipitation stretching functions to apply monthly climate shifts",
+    "relatedScripts": [
+      "drought_sim_delta.r",
+      "precip_stretch_offsets.r"
+    ],
+    "notes": "These shifts are applied before drought simulation or precipitation stretching operations. Precipitation multiplier is applied only to days with precipitation > 0; temperature offset is applied to all days."
+  }
+}
