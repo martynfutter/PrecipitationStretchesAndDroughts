@@ -16,51 +16,51 @@
   "monthly_delta_shifts_applied": {
     "Month_1": {
       "PPctChange": 10,
-      "Toffest": 1
+      "Toffset": 1
     },
     "Month_2": {
       "PPctChange": 10,
-      "Toffest": 1
+      "Toffset": 1
     },
     "Month_3": {
       "PPctChange": 5,
-      "Toffest": 1
+      "Toffset": 1
     },
     "Month_4": {
       "PPctChange": 5,
-      "Toffest": 1
+      "Toffset": 1
     },
     "Month_5": {
       "PPctChange": 5,
-      "Toffest": 1
+      "Toffset": 1
     },
     "Month_6": {
       "PPctChange": -10,
-      "Toffest": 1
+      "Toffset": 1
     },
     "Month_7": {
       "PPctChange": -10,
-      "Toffest": 1
+      "Toffset": 1
     },
     "Month_8": {
       "PPctChange": -10,
-      "Toffest": 1
+      "Toffset": 1
     },
     "Month_9": {
       "PPctChange": 0,
-      "Toffest": 1
+      "Toffset": 1
     },
     "Month_10": {
       "PPctChange": 0,
-      "Toffest": 1
+      "Toffset": 1
     },
     "Month_11": {
       "PPctChange": 10,
-      "Toffest": 1
+      "Toffset": 1
     },
     "Month_12": {
       "PPctChange": 10,
-      "Toffest": 1
+      "Toffset": 1
     }
   },
   "summary_statistics": {
