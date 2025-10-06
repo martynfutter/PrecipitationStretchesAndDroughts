@@ -106,13 +106,13 @@ Please ensure dates are in year-month-day format.")
   toff_col <- delta_names[grep("^toff", delta_names, ignore.case = TRUE)]
   
   if (length(month_col) == 0 || length(ppct_col) == 0 || length(toff_col) == 0) {
-    stop("Delta shifts file must contain 'Month', 'PPctChange', and 'Toffest' columns (case insensitive)")
+    stop("Delta shifts file must contain 'Month', 'PPctChange', and 'Toffset' columns (case insensitive)")
   }
   
   # Rename to standard names
   names(delta_shifts)[grep("^month$", names(delta_shifts), ignore.case = TRUE)] <- "Month"
   names(delta_shifts)[grep("^ppctchange$", names(delta_shifts), ignore.case = TRUE)] <- "PPctChange"
-  names(delta_shifts)[grep("^toff", names(delta_shifts), ignore.case = TRUE)] <- "Toffest"
+  names(delta_shifts)[grep("^toff", names(delta_shifts), ignore.case = TRUE)] <- "Toffset"
   
   # Parse dates and values
   data$Date <- parse_date_flexible(data[[date_col]])
@@ -165,7 +165,7 @@ Please ensure dates are in year-month-day format.")
     }
     
     pct_change <- month_shifts$PPctChange[1]
-    temp_offset <- month_shifts$Toffest[1]
+    temp_offset <- month_shifts$Toffset[1]
     
     # Apply precipitation multiplier only for days with precipitation > 0
     if (data$precipitation[i] > 0) {
@@ -354,7 +354,7 @@ Please ensure dates are in year-month-day format.")
   for (m in 1:12) {
     monthly_deltas[[paste0("Month_", m)]] <- list(
       PPctChange = delta_shifts$PPctChange[delta_shifts$Month == m],
-      Toffest = delta_shifts$Toffest[delta_shifts$Month == m]
+      Toffset = delta_shifts$Toffset[delta_shifts$Month == m]
     )
   }
   
