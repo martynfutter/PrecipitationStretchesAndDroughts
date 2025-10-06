@@ -34,7 +34,7 @@ This allows modeling of both long-term climate trends (via delta shifts) and dro
 *Delta shifts file (MonthlyDeltaShifts.csv):*
 - `Month`: Integer 1-12 representing calendar months
 - `PPctChange`: Precipitation percent change (e.g., 10 for +10%, -15 for -15%)
-- `Toffest`: Temperature offset in °C (e.g., 2.5 for +2.5°C increase)
+- `Toffset`: Temperature offset in °C (e.g., 2.5 for +2.5°C increase)
 
 **Usage:**
 ```r
@@ -180,7 +180,7 @@ Example monthly climate change delta values for precipitation and temperature ad
 **Format:**
 - `Month`: Integer 1-12 (January through December)
 - `PPctChange`: Precipitation percent change for each month (can be positive or negative)
-- `Toffest`: Temperature offset in °C for each month
+- `Toffset`: Temperature offset in °C for each month
 
 **Data:** Contains 12 rows, one for each calendar month
 
