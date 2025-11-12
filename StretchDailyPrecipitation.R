@@ -21,7 +21,8 @@
 #   CSV file with columns: date, temperature, precipitation, t_offset, p_offset,
 #                          z, x, stretched_precipitation
 #
-# Author: Generated for precipitation time series analysis
+# Author: Claude and Martyn
+# Generated for precipitation time series analysis
 # Date: 2025-11-11
 ################################################################################
 
@@ -521,14 +522,14 @@ if (!interactive()) {
 # =============================================================================
 
 # USAGE OPTION 1: Modify CONFIGURATION SECTION and run
-#   Rscript stretch_precipitation_standalone.R
+#   Rscript StretchDailyPrecipitation.R
 #
 # USAGE OPTION 2: Command line with parameters
-#   Rscript stretch_precipitation_standalone.R <threshold> <stretch_factor> [daily_file] [offsets_file] [output]
-#   Example: Rscript stretch_precipitation_standalone.R 75 20 daily_weather.csv monthly_delta_shifts.csv output.csv
+#   Rscript StretchDailyPrecipitation.R <threshold> <stretch_factor> [daily_file] [offsets_file] [output]
+#   Example: Rscript StretchDailyPrecipitation.R 75 20 daily_weather.csv monthly_delta_shifts.csv output.csv
 #
 # USAGE OPTION 3: Source and call as function
-#   source("stretch_precipitation_standalone.R")
+#   source("StretchDailyPrecipitation.R")
 #   result <- stretch_precipitation(
 #     daily_weather_file = "daily_weather.csv",
 #     monthly_offsets_file = "monthly_delta_shifts.csv",
