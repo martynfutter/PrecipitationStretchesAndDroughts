@@ -10,7 +10,7 @@ R scripts for generating future climate scenarios by modifying precipitation and
 - [Repository Contents](#repository-contents)
 - [Daily Scenario Generation](#daily-scenario-generation)
   - [simulate_daily_drought.r](#simulate_daily_droughtr)
-  - [stretch_precipitation_standalone.R](#stretch_precipitation_standaloner)
+  - [stretch_daily_precipitation.R](#stretch_daily_precipitationr)
 - [Subdaily Scenario Generation](#subdaily-scenario-generation)
   - [generate_subdaily_weather_scenario.r](#generate_subdaily_weather_scenarior)
 - [Input Data Files](#input-data-files)
@@ -30,7 +30,7 @@ This repository provides tools for generating climate scenarios at both daily an
 
 All transformations preserve mass balance and provide comprehensive metadata tracking.
 
-> **Important**: The subdaily script (`generate_subdaily_weather_scenario.r`) expects the daily scenario CSV to contain specific column names (`OriginalPrecipitation`, `DeltaShiftPrecipitation`, `ScenarioPrecipitation`, etc.). These columns are produced by `simulate_daily_drought.r` but **not** by `stretch_precipitation_standalone.R`, which uses a different output format. If using the stretch script as input to the subdaily script, a column-renaming step is required. See [Complete Workflow Examples](#complete-workflow-examples) for details.
+> **Important**: The subdaily script (`generate_subdaily_weather_scenario.r`) expects the daily scenario CSV to contain specific column names (`OriginalPrecipitation`, `DeltaShiftPrecipitation`, `ScenarioPrecipitation`, etc.). These columns are produced by `simulate_daily_drought.r` but **not** by `stretch_daily_precipitation.R`, which uses a different output format. If using the stretch script as input to the subdaily script, a column-renaming step is required. See [Complete Workflow Examples](#complete-workflow-examples) for details.
 
 ---
 
@@ -39,13 +39,13 @@ All transformations preserve mass balance and provide comprehensive metadata tra
 ### R Scripts
 
 - **`simulate_daily_drought.r`**: Generates daily drought scenarios with climate change projections
-- **`stretch_precipitation_standalone.R`**: Generates daily extreme precipitation scenarios with climate change projections
+- **`stretch_daily_precipitation.R`**: Generates daily extreme precipitation scenarios with climate change projections
 - **`generate_subdaily_weather_scenario.r`**: Applies daily scenario transformations to subdaily time series
 
 ### Data Files
 
 - **`short.csv`**: Example daily weather data (30 years, 1991-2020)
-- **`MonthlyDeltaShifts.csv`**: Example monthly climate change projections
+- **`monthly_delta_shifts.csv`**: Example monthly climate change projections
 - **`exampleFiles/`**: Directory containing example outputs
 
 ---
@@ -67,8 +67,8 @@ This script performs a two-stage transformation:
 ```r
 drought_simulation_with_shifts(
   input_file    = "short.csv",                  # Input daily weather data
-  output_file   = "dailyWeatherScenario.csv",   # Output CSV file
-  delta_file    = "MonthlyDeltaShifts.csv",     # Monthly delta shifts
+  output_file   = "daily_weather_scenario.csv",   # Output CSV file
+  delta_file    = "monthly_delta_shifts.csv",     # Monthly delta shifts
   drought_factor = 0.75                         # Fraction of spring/summer precipitation retained (0-1)
 )
 ```
@@ -80,7 +80,7 @@ drought_simulation_with_shifts(
 - `precipitaition` (or `precipitation`): Daily precipitation values (mm) — scripts handle column name variations case-insensitively
 - `air_temperature` (or `temperature`): Daily air temperature values (°C)
 
-**Monthly delta shifts file (e.g., MonthlyDeltaShifts.csv):**
+**Monthly delta shifts file (e.g., monthly_delta_shifts.csv):**
 - `Month`: Integer 1-12 (January through December)
 - `PPctChange`: Precipitation percent change for each month
 - `Toffset`: Temperature offset in °C for each month
@@ -93,8 +93,8 @@ source("simulate_daily_drought.r")
 # Moderate drought scenario (25% spring/summer reduction)
 result <- drought_simulation_with_shifts(
   input_file     = "short.csv",
-  output_file    = "dailyWeatherScenario.csv",
-  delta_file     = "MonthlyDeltaShifts.csv",
+  output_file    = "daily_weather_scenario.csv",
+  delta_file     = "monthly_delta_shifts.csv",
   drought_factor = 0.75
 )
 
@@ -102,14 +102,14 @@ result <- drought_simulation_with_shifts(
 result <- drought_simulation_with_shifts(
   input_file     = "short.csv",
   output_file    = "severe_drought.csv",
-  delta_file     = "MonthlyDeltaShifts.csv",
+  delta_file     = "monthly_delta_shifts.csv",
   drought_factor = 0.5
 )
 ```
 
 ---
 
-### stretch_precipitation_standalone.R
+### stretch_daily_precipitation.R
 
 Combines monthly delta shifts (climate change projections) with precipitation stretching to intensify extreme precipitation events.
 
@@ -133,7 +133,7 @@ stretch_precipitation(
 )
 ```
 
-> **Note**: Default input file names for this script (`daily_weather.csv`, `monthly_delta_shifts.csv`) differ from those used by `simulate_daily_drought.r` (`short.csv`, `MonthlyDeltaShifts.csv`). Update the `CONFIGURATION SECTION` at the top of the script or pass file paths explicitly when calling the function.
+> **Note**: Default input file names for this script (`daily_weather.csv`, `monthly_delta_shifts.csv`) differ from those used by `simulate_daily_drought.r` (`short.csv`, `monthly_delta_shifts.csv`). Update the `CONFIGURATION SECTION` at the top of the script or pass file paths explicitly when calling the function.
 
 #### Input File Formats
 
@@ -156,13 +156,13 @@ stretch_precipitation(
 
 ```r
 # Source the script
-source("stretch_precipitation_standalone.R")
+source("stretch_daily_precipitation.R")
 
 # Extreme precipitation intensification scenario
 result <- stretch_precipitation(
   daily_weather_file   = "short.csv",
-  monthly_offsets_file = "MonthlyDeltaShifts.csv",
-  output_file          = "dailyWeatherScenario.csv",
+  monthly_offsets_file = "monthly_delta_shifts.csv",
+  output_file          = "daily_weather_scenario.csv",
   threshold            = 95,     # 95th percentile threshold
   stretch_factor       = 50      # 50% stretch for extreme events
 )
@@ -170,7 +170,7 @@ result <- stretch_precipitation(
 # Moderate extreme event scenario
 result <- stretch_precipitation(
   daily_weather_file   = "short.csv",
-  monthly_offsets_file = "MonthlyDeltaShifts.csv",
+  monthly_offsets_file = "monthly_delta_shifts.csv",
   output_file          = "moderate_extreme_scenario.csv",
   threshold            = 90,     # 90th percentile
   stretch_factor       = 25      # 25% maximum stretch
@@ -181,13 +181,13 @@ This script can also be run directly from the command line:
 
 ```bash
 # Basic command-line usage
-Rscript stretch_precipitation_standalone.R <threshold> <stretch_factor>
+Rscript stretch_daily_precipitation.R <threshold> <stretch_factor>
 
 # Full command-line usage with all arguments
-Rscript stretch_precipitation_standalone.R <threshold> <stretch_factor> <daily_file> <offsets_file> <output_file>
+Rscript stretch_daily_precipitation.R <threshold> <stretch_factor> <daily_file> <offsets_file> <output_file>
 
 # Example
-Rscript stretch_precipitation_standalone.R 95 50 short.csv MonthlyDeltaShifts.csv dailyWeatherScenario.csv
+Rscript stretch_daily_precipitation.R 95 50 short.csv monthly_delta_shifts.csv daily_weather_scenario.csv
 ```
 
 #### Methodology
@@ -222,7 +222,7 @@ This script applies the transformations from a daily weather scenario to subdail
 4. Applies proportional transformations to subdaily precipitation and temperature
 5. Generates subdaily scenario output with comprehensive metadata
 
-> **Compatibility note**: This script expects daily scenario input columns named `OriginalPrecipitation`, `DeltaShiftPrecipitation`, `OriginalTemperature`, `DeltaShiftTemperature`, and `ScenarioPrecipitation`. These are produced directly by `simulate_daily_drought.r`. If using output from `stretch_precipitation_standalone.R`, the columns must be renamed before use (see [Complete Workflow Examples](#complete-workflow-examples)).
+> **Compatibility note**: This script expects daily scenario input columns named `OriginalPrecipitation`, `DeltaShiftPrecipitation`, `OriginalTemperature`, `DeltaShiftTemperature`, and `ScenarioPrecipitation`. These are produced directly by `simulate_daily_drought.r`. If using output from `stretch_daily_precipitation.R`, the columns must be renamed before use (see [Complete Workflow Examples](#complete-workflow-examples)).
 
 #### Parameters
 
@@ -325,7 +325,7 @@ Example climate data file containing daily precipitation and temperature observa
 
 **Data Range:** Contains 10,958 rows of daily observations spanning 30 years (1991-2020)
 
-### MonthlyDeltaShifts.csv
+### monthly_delta_shifts.csv
 
 Example monthly climate change delta values for precipitation and temperature adjustments.
 
@@ -373,7 +373,7 @@ Month,PPctChange,Toffset
 - Transformation results (mass balance verification)
 - Drought scaling factors by year
 
-### stretch_precipitation_standalone.R Outputs
+### stretch_daily_precipitation.R Outputs
 
 **CSV Output Columns:**
 1. `date`: Date of observation
@@ -422,8 +422,8 @@ Month,PPctChange,Toffset
 source("simulate_daily_drought.r")
 daily_result <- drought_simulation_with_shifts(
   input_file     = "short.csv",
-  output_file    = "dailyWeatherScenario.csv",
-  delta_file     = "MonthlyDeltaShifts.csv",
+  output_file    = "daily_weather_scenario.csv",
+  delta_file     = "monthly_delta_shifts.csv",
   drought_factor = 0.75  # 25% spring/summer reduction
 )
 
@@ -431,9 +431,9 @@ daily_result <- drought_simulation_with_shifts(
 source("generate_subdaily_weather_scenario.r")
 subdaily_result <- generate_subdaily_weather_scenario(
   subdaily_file     = "short_subdaily.csv",
-  daily_shifts_file = "dailyWeatherScenario.csv",
-  output_csv        = "subDailyWeatherScenario.csv",
-  output_json       = "subDailyWeatherScenario.json"
+  daily_shifts_file = "daily_weather_scenario.csv",
+  output_csv        = "subdaily_weather_scenario.csv",
+  output_json       = "subdaily_weather_scenario.json"
 )
 ```
 
@@ -441,11 +441,11 @@ subdaily_result <- generate_subdaily_weather_scenario(
 
 ```r
 # Generate daily extreme precipitation scenario
-source("stretch_precipitation_standalone.R")
+source("stretch_daily_precipitation.R")
 daily_result <- stretch_precipitation(
   daily_weather_file   = "short.csv",
-  monthly_offsets_file = "MonthlyDeltaShifts.csv",
-  output_file          = "dailyWeatherScenario.csv",
+  monthly_offsets_file = "monthly_delta_shifts.csv",
+  output_file          = "daily_weather_scenario.csv",
   threshold            = 95,
   stretch_factor       = 50
 )
@@ -457,10 +457,10 @@ The stretch script output CSV columns differ from what `generate_subdaily_weathe
 
 ```r
 # Step 1: Generate daily extreme precipitation scenario
-source("stretch_precipitation_standalone.R")
+source("stretch_daily_precipitation.R")
 stretch_result <- stretch_precipitation(
   daily_weather_file   = "short.csv",
-  monthly_offsets_file = "MonthlyDeltaShifts.csv",
+  monthly_offsets_file = "monthly_delta_shifts.csv",
   output_file          = "stretch_daily_raw.csv",
   threshold            = 95,
   stretch_factor       = 50
@@ -492,7 +492,7 @@ subdaily_result <- generate_subdaily_weather_scenario(
 
 ```r
 source("simulate_daily_drought.r")
-source("stretch_precipitation_standalone.R")
+source("stretch_daily_precipitation.R")
 
 # Scenario 1: Moderate drought
 drought_moderate <- drought_simulation_with_shifts(
@@ -509,7 +509,7 @@ drought_severe <- drought_simulation_with_shifts(
 # Scenario 3: Extreme precipitation
 extreme_precip <- stretch_precipitation(
   daily_weather_file   = "short.csv",
-  monthly_offsets_file = "MonthlyDeltaShifts.csv",
+  monthly_offsets_file = "monthly_delta_shifts.csv",
   output_file          = "extreme_precip.csv",
   threshold            = 95,
   stretch_factor       = 50
