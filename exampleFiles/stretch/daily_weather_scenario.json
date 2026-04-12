@@ -1,0 +1,97 @@
+{
+  "scenario_info": {
+    "scenario_name": "RCP 8.5 - 2050",
+    "date_created": "2025-10-05 09:40:27 CEST",
+    "stretch_value": 50
+  },
+  "input_files": {
+    "input_file": "short.csv",
+    "monthly_delta_shifts_source": "MonthlyDeltaShifts.csv"
+  },
+  "output_files": {
+    "csv_file": "dailyWeatherScenario.csv",
+    "metadata_file": "dailyWeatherScenario.json"
+  },
+  "monthly_offsets_applied": {
+    "Month_1": {
+      "PPctChange": 10,
+      "Toffset": 1
+    },
+    "Month_2": {
+      "PPctChange": 10,
+      "Toffset": 1
+    },
+    "Month_3": {
+      "PPctChange": 5,
+      "Toffset": 1
+    },
+    "Month_4": {
+      "PPctChange": 5,
+      "Toffset": 1
+    },
+    "Month_5": {
+      "PPctChange": 5,
+      "Toffset": 1
+    },
+    "Month_6": {
+      "PPctChange": -10,
+      "Toffset": 1
+    },
+    "Month_7": {
+      "PPctChange": -10,
+      "Toffset": 1
+    },
+    "Month_8": {
+      "PPctChange": -10,
+      "Toffset": 1
+    },
+    "Month_9": {
+      "PPctChange": 0,
+      "Toffset": 1
+    },
+    "Month_10": {
+      "PPctChange": 0,
+      "Toffset": 1
+    },
+    "Month_11": {
+      "PPctChange": 10,
+      "Toffset": 1
+    },
+    "Month_12": {
+      "PPctChange": 10,
+      "Toffset": 1
+    }
+  },
+  "user_parameters": {
+    "threshold": 95,
+    "stretch_factor": 50,
+    "date_format": "%Y-%m-%d",
+    "tolerance": 0.01,
+    "max_iterations": 1000
+  },
+  "optimized_parameters": {
+    "a": 1.0415,
+    "b": 0.5425,
+    "c": 1.6034,
+    "d": 0.6165
+  },
+  "precipitation_results": {
+    "original_total": 24431.71,
+    "shifted_total": 24491.0845,
+    "stretched_total": 24501.6389,
+    "shift_change_percent": 0.24,
+    "convergence_error_percent": 0.0431,
+    "days_with_precipitation": 9709,
+    "days_without_precipitation": 1249
+  },
+  "temperature_results": {
+    "original_mean": 6.89,
+    "shifted_mean": 7.89,
+    "mean_change": 1
+  },
+  "data_summary": {
+    "total_days_processed": 10958,
+    "date_range_start": "1991-01-01",
+    "date_range_end": "2020-12-31"
+  }
+}

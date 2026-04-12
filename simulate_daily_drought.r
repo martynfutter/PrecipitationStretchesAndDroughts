@@ -28,8 +28,8 @@ parse_date_flexible <- function(date_strings) {
 
 # Main function
 drought_simulation_with_shifts <- function(input_file = "short.csv",
-                                          output_file = "dailyWeatherScenario.csv",
-                                          delta_file = "MonthlyDeltaShifts.csv",
+                                          output_file = "daily_weather_scenario.csv",
+                                          delta_file = "monthly_delta_shifts.csv",
                                           drought_factor = 0.75) {
   
   # Load required libraries
@@ -384,7 +384,7 @@ Please ensure dates are in year-month-day format.")
     ),
     output_files = list(
       csv_file = output_file,
-      metadata_file = "dailyWeatherScenario.json"
+      metadata_file = "daily_weather_scenario.json"
     ),
     monthly_delta_shifts_applied = monthly_deltas,
     summary_statistics = list(
@@ -427,7 +427,7 @@ Please ensure dates are in year-month-day format.")
   )
   
   # Write JSON file with pretty formatting
-  json_file <- "dailyWeatherScenario.json"
+  json_file <- "daily_weather_scenario.json"
   write_json(metadata, json_file, pretty = TRUE, auto_unbox = TRUE)
   cat("Metadata JSON saved to:", json_file, "\n")
   
@@ -441,8 +441,8 @@ Please ensure dates are in year-month-day format.")
 # Custom parameters
 # result <- drought_simulation_with_shifts(
 #   input_file = "short.csv",
-#   output_file = "dailyWeatherScenario.csv",
-#   delta_file = "MonthlyDeltaShifts.csv",
+#   output_file = "daily_weather_scenario.csv",
+#   delta_file = "monthly_delta_shifts.csv",
 #   drought_factor = 0.75
 # )
 
@@ -450,4 +450,4 @@ Please ensure dates are in year-month-day format.")
 cat("=== DROUGHT SIMULATION WITH DELTA SHIFTS FUNCTION LOADED ===\n")
 cat("To use: result <- drought_simulation_with_shifts()\n")
 cat("Or with custom parameters:\n")
-cat("result <- drought_simulation_with_shifts('short.csv', 'dailyWeatherScenario.csv', 'MonthlyDeltaShifts.csv', 0.75)\n")
+cat("result <- drought_simulation_with_shifts('short.csv', 'daily_weather_scenario.csv', 'monthly_delta_shifts.csv', 0.75)\n")
